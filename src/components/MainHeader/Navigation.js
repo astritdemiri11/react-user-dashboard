@@ -1,18 +1,15 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
 
+import AuthContext from '../../store/auth-context';
 import classes from './Navigation.module.css';
 
-const Navigation = ({ isLoggedIn, onLogout }) => {
-  const clickHandler = (event) => {
-    if (onLogout) {
-      onLogout(event);
-    }
-  };
+const Navigation = () => {
+  const authCtx = useContext(AuthContext);
 
   return (
     <nav className={classes.nav}>
       <ul>
-        {isLoggedIn && (
+        {authCtx.isLoggedIn && (
           <>
             <li>
               <a href="/">Users</a>
@@ -21,22 +18,13 @@ const Navigation = ({ isLoggedIn, onLogout }) => {
               <a href="/">Admin</a>
             </li>
             <li>
-              <button type="button" onClick={clickHandler}>Logout</button>
+              <button type="button" onClick={authCtx.onLogout}>Logout</button>
             </li>
           </>
         )}
       </ul>
     </nav>
   );
-};
-
-Navigation.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  onLogout: PropTypes.func,
-};
-
-Navigation.defaultProps = {
-  onLogout: null,
 };
 
 export default Navigation;
